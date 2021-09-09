@@ -1,9 +1,13 @@
 package com.scandura.desvendas.services;
 
+import java.util.List;
+
 import com.scandura.desvendas.repositories.SaleRepository;
 import com.scandura.desvendas.repositories.SellerRepository;
 import com.scandura.desvendas.entities.Sale;
 import com.scandura.desvendas.dto.SaleDTO;
+import com.scandura.desvendas.dto.SaleSumDTO;
+import com.scandura.desvendas.dto.SalesSuccessDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -25,5 +29,15 @@ public class SaleService {
         sellerRepository.findAll();
         Page<Sale> result =  repository.findAll(pageable);
         return result.map(x -> new SaleDTO(x));
+    }
+
+    @Transactional(readOnly = true)
+    public List<SaleSumDTO> amountGroupedBySeller(){
+        return repository.amountGroupedBySeller();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SalesSuccessDTO> successGroupedBySeller(){
+        return repository.successGroupedBySeller();
     }
 }
